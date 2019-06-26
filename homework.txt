@@ -1,0 +1,15 @@
+1.銷售排行榜
+    SELECT ROUND(SUM((unitprice * quantity * (1-Discount))),0) as Total,Employees.EmployeeID FROM 
+    (`order details` LEFT JOIN Orders ON `order details`.OrderID = Orders.OrderID) 
+    LEFT JOIN Employees 
+    ON Employees.EmployeeID = Orders.EmployeeID 
+    GROUP BY Employees.EmployeeID  
+    ORDER BY `Total` DESC
+
+2.在那個city的產品，賣出金額，大到小排序
+    SELECT ROUND((unitprice * quantity * (1-Discount)),0) as Total,City FROM 
+    (`order details` LEFT JOIN Orders on `order details`.OrderID = Orders.OrderID) 
+    LEFT JOIN Customers 
+    on Orders.CustomerID = Customers.CustomerID 
+    GROUP BY City  
+    ORDER BY `Total`  DESC
