@@ -1,0 +1,16 @@
+0. 每個辦公室的業績狀況表 
+    SELECT o.officecode,sum(quantityordered*pSELECT o.officecode,sum(quantityordered*priceeach) FROM (offices as o  JOIN employees as e ON o.officecode = e.officeCode)  JOIN customers as c ON e.employeeNumber = c.salesRepEmployeeNumber  JOIN orders ON c.customerNumber = orders.customerNumber  JOIN orderdetails ON orders.orderNumber = orderdetails.orderNumber where orders.status = 'shipped'group by o.officecode  
+ORDER BY `sum(quantityordered*priceeach)`  DESC
+1. 業務業績排行榜, procedure
+
+2. 熱銷商品排行榜, procedure
+3. 業務訂單取消的比例 orders.sttaus = canceled
+SELECT  
+     sum(case when `status` = 'Cancelled' then 1 else 0 end)/count(*) as cancel_ratio 
+FROM orders
+4. 低於商品建議售價MSRP*0.95的訂單及其實際售價 
+SELECT orders.orderNumber,products.buyPrice FROM 
+(orders LEFT JOIN orderdetails ON orders.orderNumber = orderdetails.orderNumber) 
+LEFT JOIN products ON orderdetails.productCode = products.productCode 
+WHERE products.buyPrice < products.MSRP*0.95
+5. 當訂單資料被修改及刪除的時候記錄在 log 資料表中, 時間及所有資料欄位
